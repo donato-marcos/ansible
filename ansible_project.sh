@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
 # ---------------------------------------------------- #
-# Nome do Script: ansible_project2.sh
+# Nome do Script: ansible_project.sh
 # Descrição: Cria uma estrutura completa de um projeto Ansible.
 # Site:
 # Escrito por: Marcos
