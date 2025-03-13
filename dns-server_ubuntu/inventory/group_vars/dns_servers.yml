@@ -1,0 +1,34 @@
+---
+# Variáveis específicas para servidores DNS
+bind_cache_dir: "/var/cache/bind"  # Caminho do diretório de cache do BIND9
+server_name: "ns4" 
+domain_name: "lab.fatecosasco.edu.br"
+dns_ip: "{{ ansible_default_ipv4.address }}"
+forwarders:
+  - "208.67.222.222"
+  - "8.8.8.8"
+  - "1.1.1.1"
+zone_name: "lab.fatecosasco.edu.br"
+reverse_zone: "1.168.192.in-addr.arpa"
+allow_query:
+  - "localhost"
+  - "192.168.1.0/24"
+  - "10.0.0.0/8"
+records:
+  - { name: "ns4", type: "A", value: "192.168.1.201" }
+  - { name: "ns1", type: "A", value: "192.168.1.202" }
+  - { name: "www", type: "A", value: "192.168.1.210" }
+  - { name: "web", type: "CNAME", value: "www" }
+  - { name: "ftp", type: "CNAME", value: "www" }
+  - { name: "fire01", type: "A", value: "192.168.1.211" }
+  - { name: "proxy01", type: "CNAME", value: "fire01" }
+  - { name: "mail01", type: "A", value: "192.168.1.250" }
+  - { name: "smtp", type: "CNAME", value: "mail01" }
+  - { name: "imap", type: "CNAME", value: "mail01" }
+  - { name: "pop3", type: "CNAME", value: "mail01" }
+ptr_records:
+  - { ip: "204", name: "ns4.lab.fatecosasco.edu.br" }
+  - { ip: "202", name: "ns2.lab.fatecosasco.edu.br" }
+  - { ip: "210", name: "www.lab.fatecosasco.edu.br" }
+  - { ip: "211", name: "fire01.lab.fatecosasco.edu.br" }
+  - { ip: "250", name: "mail01.lab.fatecosasco.edu.br" }

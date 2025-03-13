@@ -1,0 +1,25 @@
+---
+- name: Atualizar o cache do apt
+  apt:
+    update_cache: yes
+
+- name: Instalar pacotes básicos
+  apt:
+    name:
+      - vim
+      - btop
+      - tmux
+#      - qemu-guest-agent
+    state: present
+
+- name: Configurar timezone {{ timezone }}
+  timezone:
+    name: "{{ timezone }}"
+
+#- name: Iniciar o serviço QEMU-AGENT
+#  service:
+#    name: qemu-guest-agent
+#    state: started
+#    enabled: yes
+
+

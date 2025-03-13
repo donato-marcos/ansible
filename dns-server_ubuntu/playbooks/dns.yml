@@ -1,0 +1,6 @@
+---
+- name: Configurar servidores DNS
+  hosts: dns_servers
+  become: yes
+  roles:
+    - dns

@@ -1,0 +1,9 @@
+zone "{{ zone_name }}" IN {
+    type master;
+    file "{{ bind_cache_dir }}/{{ zone_name }}.zone";
+};
+
+zone "{{ reverse_zone }}" IN {
+    type master;
+    file "{{ bind_cache_dir }}/{{ zone_name }}.rev";
+};

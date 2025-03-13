@@ -1,0 +1,73 @@
+---
+- name: Instalar pacotes necessários
+  apt:
+    name:
+      - bind9
+      - bind9-dnsutils
+    state: present
+
+- name: Configurar o hostname
+  hostname:
+    name: "{{ server_name }}.{{ domain_name }}"
+
+- name: Configurar o arquivo /etc/hosts
+  lineinfile:
+    path: /etc/hosts
+    line: "{{ dns_ip }} {{ server_name }}.{{ domain_name }} {{ server_name }}"
+    state: present
+
+- name: Configurar o arquivo /etc/bind/named.conf.options
+  template:
+    src: named.conf.options.j2
+    dest: /etc/bind/named.conf.options
+    owner: root
+    group: bind
+    mode: '0644'
+    backup: yes
+  notify: Restart BIND9
+
+- name: Configurar o arquivo /etc/bind/named.conf.local
+  template:
+    src: named.conf.local.j2
+    dest: /etc/bind/named.conf.local
+    owner: root
+    group: bind
+    mode: '0644'
+    backup: yes
+  notify: Restart BIND9
+
+- name: Criar o arquivo de zona direta
+  template:
+    src: lab.fatecosasco.edu.br.zone.j2
+    dest: "{{ bind_cache_dir }}/{{ zone_name }}.zone"
+    owner: root
+    group: bind
+    mode: '0644'
+    backup: yes
+  notify: Restart BIND9
+
+- name: Criar o arquivo de zona reversa
+  template:
+    src: lab.fatecosasco.edu.br.rev.j2
+    dest: "{{ bind_cache_dir }}/{{ zone_name }}.rev"
+    owner: root
+    group: bind
+    mode: '0644'
+    backup: yes
+  notify: Restart BIND9
+
+
+- name: Verificar a configuração do BIND
+  command: named-checkconf
+
+- name: Verificar a zona direta
+  command: named-checkzone {{ zone_name }} {{ bind_cache_dir }}/{{ zone_name }}.zone
+
+- name: Verificar a zona reversa
+  command: named-checkzone {{ reverse_zone }} {{ bind_cache_dir }}/{{ zone_name }}.rev
+
+- name: Reiniciar o serviço BIND9
+  service:
+    name: bind9
+    state: restarted
+    enabled: yes
