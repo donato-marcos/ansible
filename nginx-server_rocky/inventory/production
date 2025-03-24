@@ -1,0 +1,3 @@
+[web_nginx_service]
+web_nginx_host1 ansible_host=192.168.122.122
+web_nginx_host2 ansible_host=192.168.122.195
