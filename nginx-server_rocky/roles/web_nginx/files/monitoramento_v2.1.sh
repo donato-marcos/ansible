@@ -37,7 +37,7 @@ ONLINE_LOG="$LOG_DIR/online.log"  # Arquivo de log para status ONLINE
 OFFLINE_LOG="$LOG_DIR/offline.log"  # Arquivo de log para status OFFLINE
 TIMESTAMP=$(date +"%F %T")  # Timestamp para registro
 PAGE_URL="http://localhost" # URL da página a ser verificada
-DISCORD_WEBHOOK_URL="https://discord.com/api/webhooks/1351555076484890708/66yq2nC_1g1lVVVcpnYb3hbSIhIJ_NY_DjBM6vrPXOi6ZHEsv6JStHodTiU4nMSNNwK_"  # URL do webhook do Discord
+DISCORD_WEBHOOK_URL="URL/do/seu/WebHook/aqui"  # URL do webhook do Discord
 #
 # ---------------------------------------------------- #
 # -------------------- FUNCTIONS --------------------- #
