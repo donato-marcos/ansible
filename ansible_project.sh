@@ -41,7 +41,11 @@ create_role_structure() {
 
     # Criar arquivos main.yml apenas nos diretórios necessários
     for dir in "${ROLE_DIRS[@]}"; do
-        if [[ "$dir" == "tasks" || "$dir" == "handlers" || "$dir" == "vars" || "$dir" == "defaults" || "$dir" == "meta" ]]; then
+        if [[ "$dir" == "tasks"    \
+           || "$dir" == "handlers" \
+           || "$dir" == "vars"     \
+           || "$dir" == "defaults" \
+           || "$dir" == "meta" ]]; then
             touch "$role_path/$dir/main.yml"
         fi
     done
@@ -49,6 +53,40 @@ create_role_structure() {
     # Criar README.md para a role
     touch "$role_path/README.md"
 }
+
+# Função para preencher o inventário
+add_inventory() {
+    local inventory_file="inventory/production"
+
+    echo "Preenchendo o inventário em '$inventory_file'..."
+
+    # Adicionar hosts para cada serviço
+    for service in "${!SERVICE_HOSTS[@]}"; do
+        num_hosts=${SERVICE_HOSTS[$service]}
+
+        # Adicionar grupo ao inventário
+        echo "[${service}_service]" >> "$inventory_file"
+
+        # Adicionar hosts ao grupo
+        for ((i = 1; i <= num_hosts; i++)); do
+            echo "${service}_host${i}" >> "$inventory_file"
+        done
+
+        # Adicionar uma linha em branco para separar grupos
+        echo >> "$inventory_file"
+
+        # Criar arquivos de variáveis específicos do grupo
+        touch "inventory/group_vars/${service}_service.yml"
+
+        # Criar arquivos de host_vars para cada host do serviço
+        for ((i = 1; i <= num_hosts; i++)); do
+            touch "inventory/host_vars/${service}_host${i}.yml"
+        done
+    done
+
+    echo "Inventário preenchido com sucesso!"
+}
+
 #
 # ---------------------------------------------------- #
 # --------------------- CHECKS ----------------------- #
@@ -92,13 +130,18 @@ touch README.md
 # Criar arquivo ansible.cfg com configuração simplificada
 cat <<EOF > ansible.cfg
 [defaults]
-inventory = ./inventory/
-roles_path = ./roles
-remote_user = ansible_user
-become = True
-become_method = sudo
-become_user = root
-timeout = 10
+inventory               = ./inventory/
+roles_path              = ./roles
+remote_user             = ansible_user
+sudo_user               = root
+ask_pass                = no
+ask-sudo_pass           = no
+become                  = True
+become_method           = sudo
+become_user             = root
+become_ask_pass         = False
+timeout                 = 10
+host_key_checking       = False
 
 [ssh_connection]
 ssh_args = -o ControlMaster=auto -o ControlPersist=60s
@@ -120,17 +163,12 @@ for ((i = 1; i <= NUM_SERVICES; i++)); do
     read -p "Quantos hosts serão usados para o serviço '$SERVICE_NAME'? " NUM_HOSTS
     SERVICE_HOSTS["$SERVICE_NAME"]=$NUM_HOSTS
 
-    # Criar arquivos de variáveis específicos do grupo
-    touch "inventory/group_vars/${SERVICE_NAME}_service.yml"
-
     # Criar playbook específico para o serviço
     touch "playbooks/${SERVICE_NAME}.yml"
-
-    # Criar arquivos de host_vars para cada host do serviço
-    for ((j = 1; j <= NUM_HOSTS; j++)); do
-        touch "inventory/host_vars/${SERVICE_NAME}_host${j}.yml"
-    done
 done
+
+# Preencher o inventário automaticamente
+add_inventory
 
 # Exibir estrutura criada
 echo
@@ -150,4 +188,3 @@ echo -e "\nEstrutura do projeto Ansible '$PROJECT_NAME' criada com sucesso!\n"
 #
 # ---------------------------------------------------- #
 # ------------------------ END ----------------------- #
-
