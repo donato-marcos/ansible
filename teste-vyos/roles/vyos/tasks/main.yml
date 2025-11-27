@@ -1,0 +1,52 @@
+---
+- name: Configurar hostname
+  vyos.vyos.vyos_hostname:
+    config:
+      hostname: "{{ hostname }}"
+  notify: Salvar configuração
+
+- name: Configurar banner pre-login
+  vyos.vyos.vyos_banner:
+    banner: pre-login
+    text: "{{ banner.pre_login }}"
+    state: present
+  notify: Salvar configuração
+
+
+- name: Configurar interface principal
+  vyos.vyos.vyos_l3_interfaces:
+    config:
+      - name: "{{ network_main_interface }}"
+        ipv4:
+          - address: "{{ network_ip_address }}"
+    state: replaced
+  notify: Salvar configuração
+
+- name: Configurar NTP global
+  vyos.vyos.vyos_ntp_global:
+    config:
+      servers:
+        - server: "{{ item }}"
+    state: merged
+  loop: "{{ ntp_servers }}"
+  notify: Salvar configuração
+  tags: ntp
+
+- name: Criar novo usuário
+  vyos.vyos.vyos_user:
+    name: "{{ item.name }}"
+    configured_password: "{{ item.password }}"
+    public_keys:
+      - name: "{{ ssh_public[item.ssh_public_ref].name }}"
+        key: "{{ ssh_public[item.ssh_public_ref].key }}"
+        type: "{{ ssh_public[item.ssh_public_ref].type }}"
+    update_password: on_create
+    state: present
+  loop: "{{ default_users }}"
+  loop_control:
+    loop_var: item
+  notify: Salvar configuração
+  tags: debugs
+
+
+

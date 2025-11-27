@@ -1,0 +1,6 @@
+[vyos_service]
+vyos_host1 ansible_host=192.168.122.176
+vyos_host2 ansible_host=192.168.122.19
+
+[network:children]
+vyos_service

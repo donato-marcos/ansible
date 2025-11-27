@@ -1,0 +1,10 @@
+---
+- name: Configurar VyOS no ambiente de produção
+  hosts: vyos_service
+  gather_facts: no
+  collections:
+    - vyos.vyos
+
+  roles:
+    - vyos
+

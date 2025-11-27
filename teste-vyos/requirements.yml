@@ -1,0 +1,5 @@
+---
+collections:
+  - vyos.vyos
+  - ansible.netcommon
+

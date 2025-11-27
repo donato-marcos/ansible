@@ -1,0 +1,6 @@
+hostname: "vyos-host1"
+
+network_main_interface: "eth0"
+network_ip_address: "192.168.122.176/24"
+network_gateway: "192.168.122.1"
+

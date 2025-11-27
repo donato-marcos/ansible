@@ -1,0 +1,6 @@
+---
+- name: Salvar configuração
+  vyos.vyos.vyos_config:
+    save: true
+    comment: "Configuração aplicada via Ansible"
+
