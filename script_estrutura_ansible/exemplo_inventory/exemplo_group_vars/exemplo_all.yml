@@ -1,0 +1,68 @@
+# group_vars/all.yml
+# ================== VARIÁVEIS GLOBAIS ==================
+
+# Usuário remoto padrão (se não houver override)
+ansible_user: ansible
+
+# Diretórios comuns (cada SO pode sobrescrever)
+log_dir: "/var/log/ansible"
+temp_dir: "/tmp/ansible"
+
+# Controle de reinício
+allow_reboot: false
+reboot_timeout: 1200
+
+# Timezone padrão
+timezone: "UTC"
+
+# NTP global
+ntp_servers:
+  - a.st1.ntp.br
+  - b.st1.ntp.br
+  - c.st1.ntp.br
+  - d.st1.ntp.br
+
+ntp_servers_pool:
+  - pool.ntp.br
+
+
+# Chave SSH
+ssh_public:
+  ansible:
+    name: ansible-key.pub
+    type: ssh-rsa
+    host_origin: ansible@ansible01.teste.local
+    key: AAAAB3NzaC1yc2EAAAADAQABAAABgQC+aRt/rs3aOyZRnjpikLAoEGJGU5B329CD+RkvtYE9NI0G19VotDqC1ly9WIIjLrNzEtO2yYVB2cS4bm6r9qzCd1NP6jGzSnXvuF2F4hXHO1hLGHw4B8UkUYfd4Q0GR9rkMITOEfgCgIUSlvcrOCNHjG21FyfO8nsS81WuKTB6vkTerd5v/jDC4aEJSO/cQgAG9t5+cT/KfnsMzUa59i2APdXM9E003dxBppBGKrzJH0DGx+VcKs12Zdgq7sgzKJtdv7wRTROdByhLx5zJXjY9PRcuU6zjdQcvVnw42Cn3CebdRl6IDG/zhcXE1u1dvSehtdG6iIwvuEFh0fRweFqz0YlkfvFxtAjS/iOOSSqVNsCFsljoGeInGpri1uJJe7fSyx2Hait9+pq3/5v63O+yGw2MjAHArw2I9F3qh0SWE5FShIHV/32x3xwdQSwGqKwkbfqBURCCMdNk6UJm5X+8x6T/j4/JfFGsB9VUs50i73AfsT4QH5K8xu6ADhkKNZc=
+
+# Usuários padrões
+default_users:
+  - name: ansible
+    password: "@lunoFat3c"
+    ssh_public_ref: ansible
+
+# Pacotes que *todos* os hosts devem instalar
+common_packages: []
+
+# Identificação do ambiente
+environment: production
+
+# Banners
+banner:
+  pre_login: |
+    *******************************************************************************
+    *                                                                             *
+    *           █████╗ ███████╗███████╗████████╗██╗  ██╗ █████╗ ██████╗           *
+    *          ██╔══██╗██╔════╝██╔════╝╚══██╔══╝██║  ██║██╔══██╗██╔══██╗          *
+    *          ███████║█████╗  ███████╗   ██║   ███████║███████║██████╔╝          *
+    *          ██╔══██║██╔══╝  ╚════██║   ██║   ██╔══██║██╔══██║██╔══██╗          *
+    *          ██║  ██║███████╗███████║   ██║   ██║  ██║██║  ██║██║  ██║          *
+    *          ╚═╝  ╚═╝╚══════╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝          *
+    *                                                                             *
+    *                          SISTEMA DE ACESSO RESTRITO                         *
+    *                                                                             *
+    *          Este sistema é propriedade exclusiva da [AESTHAR].                 *
+    *          O acesso está restrito a usuários autorizados.                     *
+    *          Todas as atividades são monitoradas e registradas.                 *
+    *          Uso não autorizado resultará em ações legais.                      *
+    *                                                                             *
+    *******************************************************************************

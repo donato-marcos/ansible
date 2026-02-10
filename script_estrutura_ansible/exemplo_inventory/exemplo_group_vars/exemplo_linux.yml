@@ -1,0 +1,31 @@
+# group_vars/linux.yml
+# ================== CONFIGURAÇÃO LINUX ==================
+
+# Usuário remoto padrão
+ansible_user: ansible
+
+ansible_connection: ssh
+ansible_ssh_port: 22
+ansible_shell_type: bash
+ansible_shell_executable: /bin/bash
+
+# Escalonamento
+ansible_become: true
+ansible_become_method: sudo
+
+# Configurações regionais
+timezone: "America/Sao_Paulo"
+locale: "en_US.UTF-8"
+
+# Diretórios específicos
+log_dir: "/var/log"
+temp_dir: "/tmp"
+
+# Pacotes Linux
+packages:
+  - curl
+  - vim
+  - unzip
+  - htop
+  - btop
+  - tmux

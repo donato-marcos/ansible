@@ -1,0 +1,16 @@
+# ================== CONFIGURAÇÃO NETWORK (Cisco, Arista etc.) ==================
+
+ansible_connection: ansible.netcommon.network_cli
+
+# Ajuste dependendo da plataforma:
+# ios, nxos, eos, f5os, junos, vyos, ...
+ansible_network_os: vyos
+ansible_python_interpreter: /usr/bin/python3
+ansible_user: vyos
+ansible_ssh_pass: alunofatec
+#ansible_become: yes
+#ansible_become_method: enable
+
+# Timeout padrão para redes
+ansible_command_timeout: 60
+ansible_connect_timeout: 30

@@ -1,0 +1,35 @@
+# group_vars/windows.yml
+# ================== CONFIGURAÇÃO WINDOWS - WINRM ================
+#
+#ansible_connection: winrm
+#ansible_port: 5985
+#ansible_winrm_transport: ntlm
+#ansible_winrm_server_cert_validation: ignore
+#ansible_winrm_operation_timeout_sec: 60
+#ansible_winrm_read_timeout_sec: 70
+#ansible_user: ansible
+#ansible_password: alunofatec
+#
+#
+# ================== CONFIGURAÇÃO WINDOWS - SSH ==================
+
+# Usuário via SSH
+ansible_user: ansible
+
+ansible_connection: ssh
+ansible_ssh_port: 22
+
+ansible_shell_type: powershell
+ansible_shell_executable: powershell.exe
+
+# ================================================================
+# Timezone
+timezone: "E. South America Standard Time"
+
+# Diretórios Windows
+log_dir: "C:\\Logs"
+temp_dir: "C:\\Temp"
+
+# Pacotes Windows (via Chocolatey, WinGet, etc.)
+packages:
+  - git
